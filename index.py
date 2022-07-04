@@ -1,11 +1,11 @@
-# imports
+# TODOS OS IMPORT DO ARQUIVO
 import locale
 from datetime import datetime
 import json
 from colorama import Fore, Back, Style
 from time import sleep
 
-
+#FUNÇÃO QUE FORMATA VALOR EM PT-BR
 def moeda(x):
     valor = x
     locale.setlocale(locale.LC_ALL, "Portuguese_Brazil.1252")
@@ -13,7 +13,7 @@ def moeda(x):
     return ('R$ %s' % valor)
     # resultado: R$ x.xxx,xx
 
-
+#ABRIR O ARQUIVO JSON
 try:
     with open('carteira.json', 'r') as file:
         carteira = json.loads(file.read())
@@ -23,7 +23,7 @@ except:
     carteira = {}
     idtransacao = 1
 
-
+#FUNÇÃO DE MOSTRAR AS TABELA CADASTRADAS
 def listarTransacoes():
     
     if len(carteira) == 0:
@@ -35,7 +35,7 @@ def listarTransacoes():
         print(f'{transacao["indentificador"]} - {transacao["data"][0:19]} - {transacao["descricao"]}: {moeda(transacao["valor"])}')       
     sleep(2)
 
-
+#FUNÇÃO QUE ADD UM NOVO CADASTRO NA TABELA
 def adicionarTransacao():
     global id_transacao
 
@@ -60,7 +60,7 @@ def adicionarTransacao():
     print(Style.RESET_ALL)
     sleep(2)
 
-
+#FUNÇÃO QUE DELETA UM CADASTRO DA TABELA
 def deletarTransacao():
     indentificador = "id_" + \
     input('\nDigite o id da transação que quer deletar: ')
@@ -71,7 +71,7 @@ def deletarTransacao():
     print(Style.RESET_ALL)
     sleep(2)
 
-
+#FUNÇÃO QUE EDITA UM CADASTRO NA TABELA
 def editarTransacao():
     id_transacao = int(input('\nDigite o id da transação que quer editar: '))
     print('Carregando...')
@@ -98,7 +98,7 @@ def editarTransacao():
     print(Fore.GREEN + f'Transação {transacao["indentificador"]} - "{transacao["descricao"]}" foi editada!')
     print(Style.RESET_ALL)
     sleep(2)
-
+#FUNÇÃO QUE MOSTRA O SALDO DE TODOS SO CADASTROS DA TABELA
 def consultarSaldo():
     saldo = 0
     for transacao in carteira.values():
@@ -106,14 +106,14 @@ def consultarSaldo():
     print(Fore.GREEN + f'Seu saldo atual é {moeda(saldo)}')
     print(Style.RESET_ALL)
     sleep(2)
-
+#FUNÇÃO QUE SALVA OS DADOS NO ARQUIVO JSON
 def salvaCarteira():
     c = carteira.copy()
     c["idtransacao"] = id_transacao
     with open('carteira.json', 'w') as file:
         file.write(json.dumps(c))
 
-
+#MENUS
 while True:
     op = input("""\nDigite:
     \rL - Listar trasações
@@ -123,34 +123,39 @@ while True:
     \rS - Consultar saldo atual
     \rQ - Sair do programa
     \rsua entrada:""").upper()
-
+#ALTERA O QUE A FUNÇÃO (A) FAZ
     if op == 'A':
         print('Carregando...')
         sleep(2)
         adicionarTransacao()
         salvaCarteira()
+#ALTERA O QUE A FUNÇÃO (L) FAZ
     elif op == 'L':
         print('Carregando...')
         sleep(2)
         listarTransacoes()
+#ALTERA O QUE A FUNÇÃO (D) FAZ
     elif op == 'D':
         print('Carregando...')
         sleep(2)
         deletarTransacao()
         salvaCarteira()
+#ALTERA O QUE A FUNÇÃO (E) FAZ
     elif op == 'E':
         print('Carregando...')
         sleep(2)
         editarTransacao()
         salvaCarteira()
+#ALTERA O QUE A FUNÇÃO (S) FAZ
     elif op == 'S':
         print('Carregando...')
         sleep(2)
         consultarSaldo()
-
+#ALTERA O QUE A FUNÇÃO (Q) FAZ
     elif op == 'Q':
         print('volte sempre!!')
         sleep(1)
         exit()
+#SE O USUARIO COLOCAR UM OPÇÃO ERRADA ELE AVISA
     else:
         print('Oção Invalida!')
