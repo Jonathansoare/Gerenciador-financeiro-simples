@@ -17,8 +17,9 @@ def moeda(x):
 try:
     with open('carteira.json', 'r') as file:
         carteira = json.loads(file.read())
-    id_transacao = carteira["idtransacao"]
-    carteira.pop("idtransacao")
+        
+        id_transacao = carteira["idtransacao"]
+        carteira.pop("idtransacao")
 except:
     carteira = {}
     idtransacao = 1
@@ -43,8 +44,6 @@ def adicionarTransacao():
     valor = float(
     input('\nDigite o valor da transação (com sinal de - se for despesa): '))
     data = str(datetime.now())
-    print('processando...')
-    sleep(2)
 
     transacao = {
         "valor": valor,
@@ -56,9 +55,7 @@ def adicionarTransacao():
     carteira["id_" + str(id_transacao)] = transacao
     id_transacao += 1
 
-    print(Fore.GREEN +'transação feita com sucesso!!')
-    print(Style.RESET_ALL)
-    sleep(2)
+    print('transação feita com sucesso!!')
 
 
 def deletarTransacao():
@@ -91,11 +88,11 @@ def editarTransacao():
         "valor": valor,
         "descricao": descricao,
         "data": data,
-        "indentificador": str(id_transacao),
+        "indentificador": id_transacao,
     }
 
     carteira["id_" + str(id_transacao)] = transacao
-    print(Fore.GREEN + f'Transação {transacao["indentificador"]} - "{transacao["descricao"]}" foi editada!')
+    print(Fore.GREEN + f'Transação {id_transacao} editada com sucesso! ')
     print(Style.RESET_ALL)
     sleep(2)
 
@@ -110,6 +107,7 @@ def consultarSaldo():
 def salvaCarteira():
     c = carteira.copy()
     c["idtransacao"] = id_transacao
+    
     with open('carteira.json', 'w') as file:
         file.write(json.dumps(c))
 
