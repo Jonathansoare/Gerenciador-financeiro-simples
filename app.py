@@ -14,6 +14,7 @@ while conf:
 
     if op == '1':
         print('Carregando...')
+        sleep(2)
         cod.listaTransacao()
         
     elif op == '2':
@@ -21,17 +22,21 @@ while conf:
         sleep(2)
         cod.adicionarTransacao()
         cod.salvaCarteira()
-        
+        sleep(2)
     elif op == '3':
-       cod.deletarTransacao()
-       cod.salvaCarteira()
+        print('Carregando...')
+        sleep(2)
+        cod.deletarTransacao()
+        cod.salvaCarteira()
     elif op == '4':
         print('Carregando...')
+        sleep(2)
         cod.editarTransacao()
         cod.salvaCarteira()
 
     elif op == '5':
         print('Carregando...')
+        sleep(2)
         cod.consultarSaldo()
         
     elif op == '6':

@@ -2,6 +2,7 @@ from datetime import datetime
 import json
 import locale
 from colorama import Fore,Back, Style
+from time import sleep
 
 
 carteira = {}
@@ -28,10 +29,13 @@ def adicionarTransacao():
     global id_transacao
     
     descricao = input('\nDigite a descrição da Transação: ').upper()
+    print('Carregando...')
+    sleep(1)
     valor = float(input('\nDigite o valor da Transação (COM SINAL DE - SE FOR DESPESA): '))
     data = str(datetime.now())
     data_ft = str(datetime.now())
-    
+    print('Carregando...')
+    sleep(1)
     transacao = {
         "valor": valor,
         "descricao": descricao,
@@ -43,21 +47,25 @@ def adicionarTransacao():
     
     carteira["id_" + str(id_transacao)] = transacao
     id_transacao += 1
+    sleep(1)
 def deletarTransacao():
     for transacao in sorted(carteira.values(), key=lambda transacao: str(transacao["indentificador"]), reverse=True):
         print(f'{transacao["indentificador"]} - {transacao["data"][0:19]} - {transacao["descricao"]}: {moeda(transacao["valor"])}')
     indentificador = "id_" + \
     input('\nDigite o id da transação que quer deletar: ')
     print('processando...')
+    sleep(2)
     transacao = carteira.pop(indentificador)
     print( f'Transação {transacao["indentificador"]} - "{transacao["descricao"]}", no valor de {moeda(transacao["valor"])} foi excluída!')
+    sleep(1)
 def editarTransacao():
     for transacao in sorted(carteira.values(), key=lambda transacao: str(transacao["indentificador"]), reverse=True):
         print(f'ID: {transacao["indentificador"]}  |  DATA: {transacao["data"][0:19]}  | DESCRIÇÂO: {transacao["descricao"]} | VALOR: {moeda(transacao["valor"])}')
-    
+
     id_transacao = int(input('\nDigite o id da transação que quer editar: '))
     print('Carregando...')
     indentificador = "id_" + str(id_transacao)
+    sleep(1)
 
     descricao = input('Digite a nova descrição da transação: ')
     valor = float(input('Digite o novo valor da transação: '))
@@ -74,14 +82,16 @@ def editarTransacao():
         "data": data,
         "indentificador": id_transacao,
     }
-
+    sleep(1)
     carteira["id_" + str(id_transacao)] = transacao
     print(f'Transação {id_transacao} editada com sucesso! ')
+    sleep(2)
 def consultarSaldo():
     saldo = 0
     for transacao in carteira.values():
         saldo += transacao["valor"]
     print(f'Seu saldo atual é {moeda(saldo)}')
+    sleep(2)
 def salvaCarteira():
     c = carteira.copy()
     c["idtransacao"] = id_transacao
@@ -96,3 +106,5 @@ def listaTransacao():
     
     for transacao in sorted(carteira.values(), key=lambda transacao: str(transacao["indentificador"]), reverse=True):
         print(f'ID: {transacao["indentificador"]}  |  DATA: {transacao["data"][0:19]}  | DESCRIÇÂO: {transacao["descricao"]} | VALOR: {moeda(transacao["valor"])}')  
+        
+    sleep(2)
